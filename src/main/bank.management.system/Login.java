@@ -1,6 +1,7 @@
 package main.bank.management.system;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,6 +40,7 @@ public class Login extends JFrame implements ActionListener {
         //Text field for card number
         cardTextField = new JTextField();
         cardTextField.setBounds(300, 120, 300,50);
+        cardTextField.setBorder(new LineBorder(Color.BLACK));
         add(cardTextField);
 
         //PIN JLabel
@@ -50,6 +52,7 @@ public class Login extends JFrame implements ActionListener {
         //Text field for pin number
         pinTextField = new JPasswordField();
         pinTextField.setBounds(300, 180, 300,50);
+        pinTextField.setBorder(new LineBorder(Color.BLACK));
         add(pinTextField);
 
         //Login button
