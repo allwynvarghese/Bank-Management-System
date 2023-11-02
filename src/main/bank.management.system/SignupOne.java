@@ -6,13 +6,21 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class SignupOne extends JFrame {
+public class SignupOne extends JFrame implements ActionListener {
 
     JTextField fNameTextField, lNameTextfield, emailTextfield, addrTextfield, countryTextField,
             cityTextfield, stateTextField, pincodeTextField;
 
+    JRadioButton male, female, married, unmarried, others;
+
+    JDateChooser dobChooser;
+
     JButton nextbtn;
+
+    int randomNumber = getRandomNumber();
     SignupOne(){
         //frame setup
         setLayout(null);
@@ -24,7 +32,7 @@ public class SignupOne extends JFrame {
 
         //Jlabels
         //form number generated randomly
-        JLabel formNumber = new JLabel("Form No." + getRandomNumber());
+        JLabel formNumber = new JLabel("Form No." + randomNumber);
         formNumber.setBounds(350, 40,400,38);
         formNumber.setFont(new Font("Raleway", Font.BOLD, 20));
         add(formNumber);
@@ -68,7 +76,7 @@ public class SignupOne extends JFrame {
         add(DoB);
 
         //DoB calender
-        JDateChooser dobChooser = new JDateChooser();
+        dobChooser = new JDateChooser();
         dobChooser.setBounds(250, 240, 500, 20);
         dobChooser.setForeground(Color.BLACK);
         dobChooser.setFont(new Font("Raleway", Font.PLAIN, 14));
@@ -83,11 +91,11 @@ public class SignupOne extends JFrame {
         add(gender);
 
         //Gender radio buttons
-        JRadioButton male = new JRadioButton("Male");
+        male = new JRadioButton("Male");
         male.setBounds(250,280, 120,30);
         add(male);
 
-        JRadioButton female = new JRadioButton("Female");
+        female = new JRadioButton("Female");
         female.setBounds(350, 280, 120,30);
         add(female);
 
@@ -115,15 +123,15 @@ public class SignupOne extends JFrame {
         add(ms);
 
         //Marital status radio button
-        JRadioButton married = new JRadioButton("Married");
+        married = new JRadioButton("Married");
         married.setBounds(250,360,120, 30);
         add(married);
 
-        JRadioButton unmarried = new JRadioButton("Unmarried");
+        unmarried = new JRadioButton("Unmarried");
         unmarried.setBounds(350,360,120, 30);
         add(unmarried);
 
-        JRadioButton others = new JRadioButton("Others");
+        others = new JRadioButton("Others");
         others.setBounds(480,360,120, 30);
         add(others);
 
@@ -206,9 +214,11 @@ public class SignupOne extends JFrame {
         nextbtn.setContentAreaFilled(true);
         nextbtn.setFocusPainted(false);
         nextbtn.setBorder(BorderFactory.createEmptyBorder());
+        nextbtn.addActionListener(this);
         add(nextbtn);
 
         //Clear button - TDB
+
     }
 
     //Generates random number from 1 to 9999 for formNumber
@@ -220,5 +230,33 @@ public class SignupOne extends JFrame {
         SwingUtilities.invokeLater(() -> {
             SignupOne signUp = new SignupOne();
         });
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String formNo = String.valueOf(randomNumber);
+        String fName = fNameTextField.getText();
+        String lName = lNameTextfield.getText();
+        String dob = ((JTextField)dobChooser.getDateEditor().getUiComponent()).getText();
+        String gender = male.isSelected()? "Male" : "Female";
+        String email = emailTextfield.getText();
+        String maritalState = married.isSelected()?"Married":unmarried.isSelected()?"Unmarried":"Other";
+        String address = addrTextfield.getText();
+        String city = cityTextfield.getText();
+        String state = stateTextField.getText();
+        String pin = pincodeTextField.getText();
+
+        try {
+            if(fName.equals("")){
+                JOptionPane.showMessageDialog(null, "First Name is required");
+            }else {
+                Com c = new Com();
+                String query = "INSERT INTO Signup values ('"+formNo+"','"+fName+"','"+lName+"','"+dob+"','"+gender+"','"+email+"','"+maritalState+"','"+address+"','"+city+"','"+state+"','"+pin+"')";
+                c.s.executeUpdate(query);
+            }
+        }catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        setVisible(false);
     }
 }
