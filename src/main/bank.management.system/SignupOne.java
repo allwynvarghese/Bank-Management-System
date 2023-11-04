@@ -3,7 +3,6 @@ package main.bank.management.system;
 import com.toedter.calendar.JDateChooser;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -226,12 +225,6 @@ public class SignupOne extends JFrame implements ActionListener {
         return (int)Math.floor(Math.random() * 9999) + 1;
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            SignupOne signUp = new SignupOne();
-        });
-    }
-
     @Override
     public void actionPerformed(ActionEvent e) {
         String formNo = String.valueOf(randomNumber);
@@ -254,10 +247,16 @@ public class SignupOne extends JFrame implements ActionListener {
                 String query = "INSERT INTO Signup values ('"+formNo+"','"+fName+"','"+lName+"','"+dob+"','"+gender+"','"+email+"','"+maritalState+"','"+address+"','"+city+"','"+state+"','"+pin+"')";
                 c.s.executeUpdate(query);
                 setVisible(false);
+                new SignupTwo(formNo).setVisible(true);
             }
         }catch (Exception ex){
             System.out.println(ex.getMessage());
         }
 
+    }
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            SignupOne signUp = new SignupOne();
+        });
     }
 }
