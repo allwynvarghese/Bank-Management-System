@@ -106,7 +106,7 @@ public class SignupTwo extends JFrame implements ActionListener {
         occupation.setFont(new Font("Raleway", Font.BOLD, 14));
         add(occupation);
 
-        //Marital status radio button
+        //Occupation dropdown
         String[] occupationVals = {"Salaried", "Self-employeed", "Unemployed", "Retired"};
         occupationSel = new JComboBox(occupationVals);
         occupationSel.setBounds(250,360,120, 30);
@@ -219,6 +219,7 @@ public class SignupTwo extends JFrame implements ActionListener {
                 String query = "INSERT INTO SignupTwo values ('"+formNo+"','"+sReligion+"','"+sCategory+"','"+sIncome+"','"+sQualification+"','"+sOccupation+"','"+sPan+"','"+sAadhar+"','"+isSenior+"','"+hasExistingAcc+"')";
                 c.s.executeUpdate(query);
                 setVisible(false);
+                new SignupThree(formNo).setVisible(true);
             }
         }catch (Exception ex){
             System.out.println(ex.getMessage());
