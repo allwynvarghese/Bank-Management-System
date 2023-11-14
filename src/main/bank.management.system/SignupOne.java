@@ -256,7 +256,7 @@ public class SignupOne extends JFrame implements ActionListener {
     }
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            SignupOne signUp = new SignupOne();
+            new SignupOne();
         });
     }
 }

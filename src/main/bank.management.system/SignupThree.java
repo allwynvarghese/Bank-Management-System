@@ -4,8 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Random;
-
 public class SignupThree extends JFrame implements ActionListener {
 
     JRadioButton r1, r2, r3;
@@ -173,9 +171,7 @@ public class SignupThree extends JFrame implements ActionListener {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            SignupThree signUp = new SignupThree("");
-        });
+        SwingUtilities.invokeLater(() -> new SignupThree(""));
     }
 
     @Override
@@ -201,16 +197,15 @@ public class SignupThree extends JFrame implements ActionListener {
                 }else{
                     Com con = new Com();
                     String query = "insert into SignupThree values('"+formNo+"','"+accountType+"','"+cardNum+"','"+pinNo+"','"+services+"')";
-                    String loginQuery = "insert into SignupThree values('"+formNo+"','"+cardNum+"','"+pinNo+"')";
+                    String loginQuery = "insert into LoginData values('"+formNo+"','"+cardNum+"','"+pinNo+"')";
                     con.s.executeUpdate(query);
+                    con.s.executeUpdate(loginQuery);
                     JOptionPane.showMessageDialog(null, "Card No. :" + cardNum + "\nPIN No. : "+ pinNo);
                     setVisible(false);
                 }
             }catch (Exception e){
                 System.out.print(e.getMessage());
             }
-        }else{
-
         }
     }
 }

@@ -5,6 +5,8 @@ import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class Login extends JFrame implements ActionListener {
 
@@ -106,11 +108,28 @@ public class Login extends JFrame implements ActionListener {
             pinTextField.setText("");
         }else if(ae.getSource() == login){
 
-        }else if(ae.getSource() == signup){
+            Com com = new Com();
+            String cardNo = cardTextField.getText();
+            String pin = String.copyValueOf(pinTextField.getPassword());
+            String query = "select * from LoginData where cardNum = '"+cardNo+"' and pinNUm ='"+pin+"'";
 
+            try {
+                ResultSet rs = com.s.executeQuery(query);
+                if(rs.next()){
+                    setVisible(false);
+                    new Transactions(pin).setVisible(true);
+                }else{
+                    JOptionPane.showMessageDialog(null, "Invalid Card No. or PIN!");
+                }
+
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        }else if(ae.getSource() == signup){
+            setVisible(false);
+            new SignupOne().setVisible(true);
         }
-        setVisible(false);
-        new SignupOne().setVisible(true);
     }
 
     public static void main(String[] args) {

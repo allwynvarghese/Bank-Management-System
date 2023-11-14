@@ -12,7 +12,7 @@ public class SignupTwo extends JFrame implements ActionListener {
 
     JRadioButton ySenior, nSenior, yExisting, nExisting;
 
-    JComboBox religionSel, categorySel, incomeSel, qualificationSel, occupationSel;
+    JComboBox <String> religionSel, categorySel, incomeSel, qualificationSel, occupationSel;
 
     JButton nextbtn;
 
@@ -42,7 +42,7 @@ public class SignupTwo extends JFrame implements ActionListener {
 
         //religion combo box
         String[] religionVals = {"Others", "Hindu", "Islam", "Christianity", "Jain", "Sikh"};
-        religionSel = new JComboBox(religionVals);
+        religionSel = new JComboBox<>(religionVals);
         religionSel.setBounds(250,160,500,20);
         religionSel.setFont(new Font("Raleway",Font.PLAIN, 14));
         religionSel.setBorder(new LineBorder(Color.BLACK));
@@ -57,7 +57,7 @@ public class SignupTwo extends JFrame implements ActionListener {
 
         //category combo box
         String[] categoriesVal = {"General", "SC/ST", "OBC"};
-        categorySel = new JComboBox(categoriesVal);
+        categorySel = new JComboBox<>(categoriesVal);
         categorySel.setBounds(250,200,500,20);
         categorySel.setFont(new Font("Raleway",Font.PLAIN, 14));
         categorySel.setBorder(new LineBorder(Color.BLACK));
@@ -72,7 +72,7 @@ public class SignupTwo extends JFrame implements ActionListener {
 
         //Income Combo box
         String[] incomevals = {"<1,50,000", "<2,50,000", "<5,00,000", ">=5,00,000"};
-        incomeSel = new JComboBox(incomevals);
+        incomeSel = new JComboBox<>(incomevals);
         incomeSel.setBounds(250, 240, 500, 20);
         incomeSel.setFont(new Font("Raleway", Font.PLAIN, 14));
         incomeSel.setBorder(new LineBorder(Color.BLACK));
@@ -93,7 +93,7 @@ public class SignupTwo extends JFrame implements ActionListener {
 
         //email text field
         String[] qualificationVals = {"SSC/HSC", "Diploma", "Graduate", "Post-Graduate", "PhD"};
-        qualificationSel = new JComboBox(qualificationVals);
+        qualificationSel = new JComboBox<>(qualificationVals);
         qualificationSel.setBounds(250,320,500,20);
         qualificationSel.setFont(new Font("Raleway",Font.PLAIN, 14));
         qualificationSel.setBorder(new LineBorder(Color.BLACK));
@@ -108,7 +108,7 @@ public class SignupTwo extends JFrame implements ActionListener {
 
         //Occupation dropdown
         String[] occupationVals = {"Salaried", "Self-employeed", "Unemployed", "Retired"};
-        occupationSel = new JComboBox(occupationVals);
+        occupationSel = new JComboBox<>(occupationVals);
         occupationSel.setBounds(250,360,120, 30);
         occupationSel.setFont(new Font("Raleway",Font.PLAIN, 14));
         occupationSel.setBorder(new LineBorder(Color.BLACK));
@@ -212,7 +212,7 @@ public class SignupTwo extends JFrame implements ActionListener {
         String hasExistingAcc = (yExisting.isSelected())?"Yes":"No";
 
         try {
-            if(panTextField.equals("") && aadharTextField.equals("")){
+            if(panTextField.getText().equals("") && aadharTextField.getText().equals("")){
                 JOptionPane.showMessageDialog(null, "PAN no. and Aadhar No. are required!");
             }else {
                 Com c = new Com();
@@ -227,8 +227,6 @@ public class SignupTwo extends JFrame implements ActionListener {
 
     }
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            SignupTwo signUp = new SignupTwo("");
-        });
+        SwingUtilities.invokeLater(() -> new SignupTwo(""));
     }
 }
