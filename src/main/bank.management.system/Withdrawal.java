@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 
@@ -40,13 +41,13 @@ public class Withdrawal extends JFrame implements ActionListener {
         info.setFont(new Font("System", Font.BOLD, 16));
         image.add(info);
 
-        //Deposit Text field
+        //withdrawal Text field
         withdrawalText = new JTextField();
         withdrawalText.setBounds(210, 350, 258, 25);
         withdrawalText.setFont(new Font("System", Font.BOLD, 16));
         image.add(withdrawalText);
 
-        //Deposit button
+        //withdrawal button
         withDrButton = new JButton("Submit");
         withDrButton.setBounds(355, 485, 150, 30);
         withDrButton.addActionListener(this);
@@ -62,10 +63,11 @@ public class Withdrawal extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+
         if(e.getSource() == withDrButton){
             String withDrAmt = withdrawalText.getText();
             Date date = new Date();
-
+            int balance = 0;
             if(!(withdrawalText.getText().equals(""))){
 
                 try {
@@ -73,9 +75,25 @@ public class Withdrawal extends JFrame implements ActionListener {
                     String query = "insert into Bank values ('"+pin+"','"+date+"','withdrawal', '"+withDrAmt+"') ";
 
                     con.s.executeUpdate(query);
-                    JOptionPane.showMessageDialog(null, "Amount Rs. "+ withDrAmt + " deposited successfully!");
-                    setVisible(false);
-                    new Transactions(pin);
+
+                    String bankQuery = "select * from Bank where pinNUm = '"+pin+"'";
+                    ResultSet rs = con.s.executeQuery(bankQuery);
+                    while(rs.next()) {
+                        if (rs.getString("type").equals("deposit")) {
+                            balance += Integer.parseInt(rs.getString("amount"));
+                        } else {
+                            balance -= Integer.parseInt(rs.getString("amount"));
+                        }
+                    }
+
+                    if(balance > 0){
+                        JOptionPane.showMessageDialog(null, "Amount Rs. "+ withDrAmt + " withdrawn successfully!");
+                        setVisible(false);
+                        new Transactions(pin);
+                    }else{
+                        balance = 0;
+                        JOptionPane.showMessageDialog(null, "You have insufficient balance of Rs. "+balance+" in you account.");
+                    }
 
                 } catch (SQLException ex) {
                     throw new RuntimeException(ex);

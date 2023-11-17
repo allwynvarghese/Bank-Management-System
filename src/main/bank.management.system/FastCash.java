@@ -111,7 +111,10 @@ public class FastCash extends JFrame implements ActionListener {
                     JOptionPane.showMessageDialog(null, "Amount Rs. "+amount+" has been debited from your account.");
                     setVisible(false);
                     new Transactions(pin).setVisible(true);
-                }else{
+                } else if (balance < 0) {
+                    balance = 0;
+                    JOptionPane.showMessageDialog(null, "You have insufficient balance of Rs. "+balance+" in you account.");
+                } else{
                     JOptionPane.showMessageDialog(null, "You have insufficient balance of Rs. "+balance+" in you account.");
                 }
             } catch (SQLException e) {
